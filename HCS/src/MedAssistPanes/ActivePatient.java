@@ -1,6 +1,9 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+Vanier College
+DataBase Project
+Health Care System
+Medical Assistent Pane
+Developed by Valerii Doroshenko
  */
 
 package MedAssistPanes;
@@ -17,10 +20,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 public class ActivePatient implements KeyListener, ListSelectionListener
-{
-
-    private JTextPane shortinfoTP;
-    private JTextPane patinfoTP;
+{        
     private JTextField[] patientTF;
     private JList patientList;
     private DefaultListModel listModel;
@@ -29,6 +29,7 @@ public class ActivePatient implements KeyListener, ListSelectionListener
     private JTabbedPane MAPanel;
     private Func function;
 
+    //Constructor
     public ActivePatient(JTabbedPane Panel) {
         this.MAPanel = Panel;
         this.init();
@@ -36,19 +37,14 @@ public class ActivePatient implements KeyListener, ListSelectionListener
 
     private void init() {
 
-        this.shortinfoTP = new JTextPane();
         listModel = new DefaultListModel();
-        this.patientList = new JList(this.listModel);
-        this.patinfoTP = new JTextPane();
+        this.patientList = new JList(this.listModel);        
         this.findPatientTF = new JTextField(25);
         this.function = new Func();
     }//end init
 
 
-    public void ActivePatient(String[] labels, JPanel ActivePatientPane) {
-
-        JScrollPane shortinfoSP = new JScrollPane(shortinfoTP);
-        JScrollPane patinfoSP = new JScrollPane(patinfoTP);
+    public void ActivePatient(String[] labels, JPanel ActivePatientPane) {                
 
         // patient list for auto filling
         patientList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -61,44 +57,39 @@ public class ActivePatient implements KeyListener, ListSelectionListener
         for (int i = 0; i < labels.length; i++) {
             patientTF[i] = new JTextField(15);            
             TitledBorder ttl = BorderFactory.createTitledBorder(
-                    BorderFactory.createLineBorder(Color.BLUE), labels[i]);
+                    BorderFactory.createLineBorder(Color.DARK_GRAY), labels[i]);
             ttl.setTitleJustification(TitledBorder.LEFT);
             patientTF[i].setBorder(ttl);
+            //3 first notes can't be edited
+            if (i<3 || i>7)
+            {
+                TitledBorder ttl2 = BorderFactory.createTitledBorder(
+                    BorderFactory.createLineBorder(Color.lightGray), labels[i]);
+                    ttl2.setTitleJustification(TitledBorder.LEFT);
+                    patientTF[i].setBorder(ttl2);
+                patientTF[i].setEditable(false);
+            }
             patientTF[i].setOpaque(false);
             
-        }
+        } 
         
-        // set opacity for left panel        
-        this.function.setOpacity(patinfoTP);
-
-        //set opacity for info panel
-        this.function.setOpacity(patinfoTP);
-        this.function.setOpacity(patinfoSP);
-        this.function.setOpacity(shortinfoTP);
-
-        // set dimensions
-        shortinfoSP.setPreferredSize(new Dimension(400, 100));
-        patinfoSP.setPreferredSize(new Dimension(200, 200));
+        // set dimensions                
         patientList.setPreferredSize(new Dimension(150, 175));
 
-        // set title for list
+        // set title for Patients' list
         TitledBorder title = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Patients");
         title.setTitleJustification(TitledBorder.LEFT);
         patientList.setBorder(title);
         patientList.setOpaque(false);
         ((javax.swing.DefaultListCellRenderer) patientList.getCellRenderer()).setOpaque(false);
-        // set title for list2
-        TitledBorder title2 = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Short List");
+        // set title for findpatient TF
+        TitledBorder title2 = BorderFactory.createTitledBorder(
+                BorderFactory.createLineBorder(Color.DARK_GRAY),
+                "Enter Patient's Name:");
         title.setTitleJustification(TitledBorder.LEFT);
-        shortinfoSP.setBorder(title2);
-        shortinfoSP.setOpaque(false);
-        //((javax.swing.DefaultListCellRenderer) shortinfoSP.getCellRenderer()).setOpaque(false);
-        // set title for list3
-        TitledBorder title3 = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Full List");
-        title.setTitleJustification(TitledBorder.LEFT);
-        patinfoSP.setBorder(title3);
-        patinfoSP.setOpaque(false);
-        //((javax.swing.DefaultListCellRenderer) shortinfoSP.getCellRenderer()).setOpaque(false);
+        findPatientTF.setBorder(title2);
+        findPatientTF.setOpaque(false);
+        //((javax.swing.DefaultListCellRenderer) findPatientTF.getCellRenderer()).setOpaque(false);
 
         //Timer
         final JTextPane timeTP = new JTextPane();
@@ -117,31 +108,43 @@ public class ActivePatient implements KeyListener, ListSelectionListener
             }
         }).start();
 
-        // building pane
-        ActivePatientPane.add(timeTP, new GridBagConstraints(0, 0, 2, 1, 0.5, 0, GridBagConstraints.NORTHWEST,
+        //Building pane
+        ActivePatientPane.add(timeTP, new GridBagConstraints(0, 0, 2, 1, 0.5, 0, GridBagConstraints.CENTER,
                 GridBagConstraints.BOTH, new Insets(15, 15, 0, 15), 0, 0));
-        ActivePatientPane.add(patinfoSP, new GridBagConstraints(0, 1, 2, 14, 0.5, 1, GridBagConstraints.NORTHWEST,
-                GridBagConstraints.BOTH, new Insets(15, 15, 15, 15), 0, 0));
-        ActivePatientPane.add(new JLabel("Enter Patient's Name:"), new GridBagConstraints(2, 0, 2, 1, 1, 0, GridBagConstraints.NORTHWEST,
-                GridBagConstraints.BOTH, new Insets(15, 0, 15, 0), 0, 0));
-        ActivePatientPane.add(patientList, new GridBagConstraints(4, 0, 2, 4, 0.5, 0, GridBagConstraints.NORTHWEST,
-                GridBagConstraints.BOTH, new Insets(15, 15, 15, 15), 5, 5));
-        ActivePatientPane.add(findPatientTF, new GridBagConstraints(2, 1, 2, 1, 0.5, 0, GridBagConstraints.NORTHWEST,
+        ActivePatientPane.add(findPatientTF, new GridBagConstraints(2, 0, 2, 1, 1, 0, GridBagConstraints.NORTHWEST,
                 GridBagConstraints.BOTH, new Insets(0, 0, 15, 15), 5, 5));
-        ActivePatientPane.add(shortinfoSP, new GridBagConstraints(2, 2, 2, 2, 0.5, 0, GridBagConstraints.NORTHWEST,
-                GridBagConstraints.BOTH, new Insets(0, 0, 15, 15), 5, 5));
+        ActivePatientPane.add(patientList, new GridBagConstraints(0, 1, 2, 14, 0.5, 1, GridBagConstraints.NORTHWEST,
+                GridBagConstraints.BOTH, new Insets(15, 15, 15, 15), 0, 0));         
 
-        int pozY = 4, pozX = 1;
+
+        //Placing labels into pane
+        int pozY = 3, pozX = 1;
         for (int i = 0; i < labels.length; i++) {
             ActivePatientPane.add(patientTF[i], new GridBagConstraints(++pozX, pozY, 1, 1, 0.5, 0, GridBagConstraints.NORTHWEST,
                     GridBagConstraints.BOTH, new Insets(0, 0, 15, 15), 0, 0));
-            if (i > 2) {
+            //3 labels per row
+            if ((i + 1) % 3 == 0) {
+                pozY++;
+                pozX = 1;
+            }
+            //1 labels per row
+            if (i > 10) {
                 pozY++;
                 pozX = 1;
                 ActivePatientPane.add(patientTF[i], new GridBagConstraints(2, pozY, 3, 1, 0.5, 0.5, GridBagConstraints.NORTHWEST,
                     GridBagConstraints.BOTH, new Insets(0, 0, 15, 15), 0, 0));
             }
         }
+
+        //Buttons
+        ActivePatientPane.add(new JButton("Edit"), new GridBagConstraints(4, 13, 1, 1, 0.5, 0, GridBagConstraints.WEST,
+                GridBagConstraints.NONE, new Insets(0, 0, 15, 15), 5, 5));
+        ActivePatientPane.add(new JButton("Save Changes"), new GridBagConstraints(3, 13, 2, 1, 0.5, 0, GridBagConstraints.EAST,
+                GridBagConstraints.NONE, new Insets(0, 0, 15, 15), 5, 5));
+        ActivePatientPane.add(new JButton("Make an Appointment"), new GridBagConstraints(2, 13, 1, 1, 0.5, 0, GridBagConstraints.WEST,
+                GridBagConstraints.NONE, new Insets(0, 0, 15, 15), 5, 5));
+         ActivePatientPane.add(new JButton("Create New Profile"), new GridBagConstraints(5, 13, 1, 1, 0.5, 0, GridBagConstraints.WEST,
+                GridBagConstraints.NONE, new Insets(0, 0, 15, 15), 5, 5));
             
     }//end active Patient
 
@@ -153,7 +156,7 @@ public class ActivePatient implements KeyListener, ListSelectionListener
     }
 
     public void keyReleased(KeyEvent e) {
-
+        
     }
 
      public void valueChanged(ListSelectionEvent e) {

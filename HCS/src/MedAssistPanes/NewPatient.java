@@ -5,10 +5,10 @@
 
 package MedAssistPanes;
 
-/**
- *
- * @author ContEd Student
- */
-public class NewPatient {
+
+
+public class NewPatient
+{
+
 
 }

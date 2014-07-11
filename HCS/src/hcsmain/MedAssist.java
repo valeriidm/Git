@@ -60,8 +60,8 @@ public class MedAssist {
 //        AppointmentPane.setLayout(new GridBagLayout());
 //        NewPatientPane.setLayout(new GridBagLayout());
 
-        String[] labels = {"Name", "Date of birth", "Social Insurance Number","General Information",
-            "Prescription", "Appointments History", "Tests"};
+        String[] labels = {"First Name","Last Name", "Date of birth","e-mail", "address","ZIP","phone","Insurrance",
+                           "Medical Card","Social Insurance Number","Last Test","Anamnesis","Diagnose","Prescription"};
 
 
 
